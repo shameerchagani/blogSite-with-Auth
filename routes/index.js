@@ -6,7 +6,7 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
-router.get('/blogs/newblog', (req,res) => res.render('newblog'));
+router.get('/blogs/newblog', ensureAuthenticated, (req,res) => res.render('newblog'));
 
 // Dashboard All Blogs...
 router.get('/blogs', ensureAuthenticated, (req, res) =>
@@ -15,7 +15,7 @@ router.get('/blogs', ensureAuthenticated, (req, res) =>
       res.render('blogs', {
         'blogs': result,
         'title': 'Lifestyle | Fashion | Technology',
-        'user': req.user
+        'user': req.user   
       })
     })
     .catch(err => {
@@ -50,18 +50,38 @@ router.delete('/blogs/:id', ensureAuthenticated, (req, res) => {
 });
 
 //create blog 
-router.post('/blogs', (req,res) =>{
-  const blog = new Blog(req.body);
+router.post('/blogs',ensureAuthenticated, (req,res) =>{
+  const blog = new Blog({
+    title: req.body.title,
+    description: req.body.description,
+    snippet: req.body.snippet,
+    author: req.user.name
+  })
+  const author = req.user.name
   blog.save()
       .then(result => {
-        console.log(result)
-        res.redirect('/blogs/');
+       res.redirect('/blogs/');
       })
       .catch(err => {
         console.log(err);
       });
 })
-
+// router.post('/blogs', (req,res) =>{
+//     const blog = new Blog(req.body);
+//     User.findById(id)
+//     .then(user =>{
+//       blog.save()
+//       console.log(user)
+//     })
+//     .then(result => {
+//       console.log(result)
+//       console.log(user)
+//           //res.redirect('/blogs/');
+//     })
+//       .catch(err => {
+//         console.log(err)
+//       });  
+// });
 
 
 
