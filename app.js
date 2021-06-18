@@ -14,7 +14,7 @@ require('./config/passport')(passport);
 
 // DB Config
 const db = require('./config/keys').mongoURI;
-const router = require('./routes/index.js');
+//const router = require('./routes/index.js');
 
 // Connect to MongoDB
 mongoose
@@ -57,19 +57,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-
 // Routes
 app.use('/', require('./routes/index.js'));
-app.use('/blogs', require('./routes/index.js'));
 app.use('/users', require('./routes/users.js'));
+app.use('/blogs/newblog', require('./routes/index.js'))
 
-app.get('/blogs', (req, res) => {
-  Blog.find().sort({ created: -1 })
-      .then(result => {
-          res.render('blogs', { 'blogs': result, title: 'Lifestyle | Fashion | Technology' });
-      })
-      .catch(err => {
-          console.log(err);
-      });
-});
