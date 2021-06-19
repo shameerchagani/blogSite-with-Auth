@@ -8,13 +8,14 @@ const session = require('express-session');
 const Blog = require('./models/blog');
 const mongodb = require('mongodb')
 const app = express();
+const dotenv = require('dotenv').config()
+
+// DB Config
+//const db = require('./config/keys').mongoURI;
+const db = process.env.dbPassword;
 
 // Passport Config
 require('./config/passport')(passport);
-
-// DB Config
-const db = require('./config/keys').mongoURI;
-//const router = require('./routes/index.js');
 
 // Connect to MongoDB
 mongoose
