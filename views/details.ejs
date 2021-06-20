@@ -6,9 +6,9 @@
                             <%=blog.title%>
                         </h5>
                         <div class="row d-flex">
-                        <h6 class="card-subtitle mb-2 text-muted col-lg-8">
+                        <h6 class="card-subtitle mb-2 text-secondary col-lg-8">
                             <%=blog.description%>
-                        </h6><span class="">
+                        </h6><span class="text-muted">
                             <%=blog.created.toLocaleDateString()%>
                             <%=blog.created.toLocaleTimeString()%>
                         </span>
@@ -19,8 +19,10 @@
                         </p>
                         <hr />
                         <div class="d-flex justify-content-end">
-                        <a data-doc="<%=blog._id%>" class="delete btn btn-primary mr-2"><i class="fa fa-trash mr-2"></i>Delete</a>
-                        <a href="#" class="btn btn-dark mr-2"><i class="fa fa-pen mr-2"></i>Edit</a>
+                        <%if(blog.author === user.name){%>
+                            <a data-doc="<%=blog._id%>" class="delete btn btn-primary mr-2"><i class="fa fa-trash mr-2"></i>Delete</a>
+                            <a href="#" class="btn btn-dark mr-2"><i class="fa fa-pen mr-2"></i>Edit</a>
+                        <%}%>                        
                         <a href="/blogs/" class="btn btn-info"><i class="fa fa-book mr-2"></i>View All</a>
                     </div>
                     </div>
