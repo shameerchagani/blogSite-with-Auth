@@ -86,6 +86,9 @@ router.post('/blogs',ensureAuthenticated, (req,res) =>{
 //       });  
 // });
 
-
+//about and contact routes
+router.get('/about', forwardAuthenticated, (req, res) => res.render('about.ejs'));
+router.get('/contact', forwardAuthenticated, (req, res) => res.render('contact.ejs'));
+router.get('/404', forwardAuthenticated, (req, res) => res.render('404.ejs'));
 
 module.exports = router;
