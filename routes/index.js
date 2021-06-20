@@ -51,12 +51,15 @@ router.delete('/blogs/:id', ensureAuthenticated, (req, res) => {
 
 //create blog 
 router.post('/blogs',ensureAuthenticated, (req,res) =>{
+  
   const blog = new Blog({
+    type: req.body.type,
     title: req.body.title,
     description: req.body.description,
     snippet: req.body.snippet,
     author: req.user.name
   })
+  console.log(req.body)
   const author = req.user.name
   blog.save()
       .then(result => {

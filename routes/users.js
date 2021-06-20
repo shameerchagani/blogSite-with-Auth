@@ -7,10 +7,10 @@ const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
 
 // Login Page
-router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
+router.get('/login', forwardAuthenticated, (req, res) =>res.render('login'));
 
 // Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
+router.get('/register', forwardAuthenticated, (req, res) =>res.render('register'));
 
 // Register
 router.post('/register', (req, res) => {
@@ -81,12 +81,13 @@ router.post('/login', (req, res, next) => {
     successRedirect: '/blogs',
     failureRedirect: '/users/login',
     failureFlash: true,
-    author: req.body
+    author: req.body,
+    title: 'Nodejs Blog App'
   })(req, res, next);
 });
 
 // Logout
-router.get('/logout', (req, res) => {
+router.get('/logout', (req, res) => { {title: 'Nodejs Blog Site'}
   req.logout();
   req.flash('success_msg', 'You are logged out');
   res.redirect('/users/login');
