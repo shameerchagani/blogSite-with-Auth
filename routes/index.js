@@ -6,7 +6,13 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
+
 router.get('/blogs/newblog', ensureAuthenticated, (req,res) => res.render('newblog'));
+
+//about and contact routes
+router.get('/about', (req, res) => res.render('about.ejs'));
+router.get('/contact', (req, res) => res.render('contact.ejs'));
+router.get('/404', (req, res) => res.render('404.ejs'));
 
 // Dashboard All Blogs...
 router.get('/blogs', ensureAuthenticated, (req, res) =>
@@ -45,7 +51,7 @@ router.delete('/blogs/:id', ensureAuthenticated, (req, res) => {
       res.json({ redirect: '/blogs' });
     })
     .catch(err => {
-      console.log(err);
+      res.render('/blogs/404')
     });
 });
 
@@ -59,7 +65,7 @@ router.post('/blogs',ensureAuthenticated, (req,res) =>{
     snippet: req.body.snippet,
     author: req.user.name
   })
-  console.log(req.body)
+  //console.log(req.body)
   const author = req.user.name
   blog.save()
       .then(result => {
@@ -86,9 +92,6 @@ router.post('/blogs',ensureAuthenticated, (req,res) =>{
 //       });  
 // });
 
-//about and contact routes
-router.get('/about', forwardAuthenticated, (req, res) => res.render('about.ejs'));
-router.get('/contact', forwardAuthenticated, (req, res) => res.render('contact.ejs'));
-router.get('/404', forwardAuthenticated, (req, res) => res.render('404.ejs'));
+
 
 module.exports = router;
