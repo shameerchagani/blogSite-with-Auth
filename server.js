@@ -1,4 +1,6 @@
 const express = require('express');
+const multer  = require('multer')
+
 const expressLayouts = require('express-ejs-layouts');
 const PORT = process.env.PORT || 8080;
 const mongoose = require('mongoose');
@@ -36,6 +38,20 @@ app.use(express.static('public'))
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
+
+//Multer Middleware
+let Storage = multer.diskStorage({
+  destination: "./public/uploads",
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now()+path.extname(file.originalname))
+  }
+})
+
+// let upload = multer({
+//   storage: Storage
+// }).single('file');
+ 
+// let upload = multer({ storage: storage })
 
 // Express session
 app.use(

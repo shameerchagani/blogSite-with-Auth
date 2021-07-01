@@ -3,12 +3,12 @@
                 <div class="my-3">
                     <a href="/blogs/newblog" class='btn btn-secondary btn-lg'><i class="fa fa-plus mr-2"></i>New Post</a>
                 </div>
+                <%if(user){%>
                 <div class='lead my-3'>
                     Welcome, <span class="text-bolder text-danger"><%=user.name.toUpperCase()%></span>
                 </div>
-                <div class="my-3">
-                  <a href="/users/logout" class="btn btn-danger">Logout</a>
-                </div>
+                
+                <%}%>
             </div>
         
             <div class="row justify-content-center mb-5">
@@ -17,50 +17,60 @@
                         <% if(blog.type==='Public'){%>
                             <div class="card mr-2 mb-2 rounded px-0 col-lg-3 col-md-5">
                                 <div class="card-header text-bold text-light bg-primary">
-                                  <%=blog.title.toUpperCase()%>
+                                  <%=blog.title.toUpperCase().slice(0,20)%>
+                                  <%if(blog.title.length>20){%>
+                                    <span>...</span>
+                                  <%}%>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <%=blog.description%>
+                                        <%=blog.description.slice(0,20)%>
+                                        <%if(blog.description.length>20){%>
+                                          <span>...</span>
+                                        <%}%>
                                     </h5>
-                                    <span class="text-muted">
-                                        <%=blog.created.toLocaleDateString()%>
+                                    <span class="text-muted m-2">
+                                      <strong>Published on:</strong>&nbsp;&nbsp;<%=blog.created.toLocaleDateString()%>
                                     </span>
-                                    <span class="text-muted">
-                                        <%=blog.created.toLocaleTimeString()%>
-                                    </span>
-                                    <p class="card-text">
-                                        <%=blog.snippet.slice(0,50)%>&nbsp;&nbsp;&nbsp;<a href="/blogs/<%=blog._id%>" id='<%=blog._id%>' class="ml-auto">Read More...</a>
+                    
+                                    <p class="card-text text-center">
+                                        <a href="/blogs/<%=blog._id%>" class="btn btn-dark mt-3" id='<%=blog._id%>' class="ml-auto">Read More</a>
                                     </p>
                                   </div>
                                   <div class="card-header text-bold text-light bg-secondary p-0">
                                     <a href="#" class="btn btn-link text-light"><i class="fa fa-user-circle mr-2"></i><%=blog.author%></a></span>
                                   </div>
                             </div>
-                        <%}%> 
-                        <% if(blog.type==='Private'&&blog.author==user.name){%>
-                            <div class="card mr-2 mb-2 rounded px-0 col-lg-3 col-md-5">
-                                <div class="card-header text-bold text-light bg-primary">
-                                  <%=blog.title.toUpperCase()%>
+                        <%}%>
+                        <%if(user){%>
+
+                            <% if(blog.type==='Private'&&blog.author==user.name){%>
+                                <div class="card mr-2 mb-2 rounded px-0 col-lg-3 col-md-5">
+                                    <div class="card-header text-bold text-light bg-primary">
+                                      <%=blog.title.toUpperCase().slice(0,20)%>
+                                      <%if(blog.title.length>20){%>
+                                        <span>...</span>
+                                      <%}%>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                          <%=blog.description.slice(0,20)%>
+                                          <%if(blog.description.length>20){%>
+                                            <span>...</span>
+                                          <%}%>
+                                        </h5>
+                                        <span class="text-muted">
+                                            <%=blog.created.toLocaleDateString()%>
+                                        </span>
+                                        <p class="card-text text-center">
+                                            <a href="/blogs/<%=blog._id%>" class="btn btn-dark" id='<%=blog._id%>' class="ml-auto">Read More...</a>
+                                        </p>
+                                      </div>
+                                      <div class="card-header text-bold text-light bg-success p-0">
+                                        <a href="#" class="btn btn-link text-light"><i class="fa fa-user-circle mr-2"></i><%=blog.author%></a></span>
+                                      </div>
                                 </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%=blog.description%>
-                                    </h5>
-                                    <span class="text-muted">
-                                        <%=blog.created.toLocaleDateString()%>
-                                    </span>
-                                    <span class="text-muted">
-                                        <%=blog.created.toLocaleTimeString()%>
-                                    </span>
-                                    <p class="card-text">
-                                        <%=blog.snippet.slice(0,50)%>&nbsp;&nbsp;&nbsp;<a href="/blogs/<%=blog._id%>" id='<%=blog._id%>' class="ml-auto">Read More...</a>
-                                    </p>
-                                  </div>
-                                  <div class="card-header text-bold text-light bg-secondary p-0">
-                                    <a href="#" class="btn btn-link text-light"><i class="fa fa-user-circle mr-2"></i><%=blog.author%></a></span>
-                                  </div>
-                            </div>
+                            <%}%> 
                         <%}%> 
                     <%})%>
                     </div>

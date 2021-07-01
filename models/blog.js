@@ -20,10 +20,14 @@ const blogSchema = new Schema({
   snippet: {
     type: String,
     required: true,
+    trim: true
   },
   author: {
     type: String,
     required: true,
+  },
+  file:{
+    type: String
   },
   created: {
       type: Date,

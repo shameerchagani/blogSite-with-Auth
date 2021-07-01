@@ -1,21 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const Blog = require('../models/blog');
+const multer  = require('multer')
 
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
+//Multer Middleware
+let Storage = multer.diskStorage({
+  destination: "./public/uploads",
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now()+path.extname(file.originalname))
+  }
+})
+let upload = multer({ storage: Storage}).single('file');
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 
-router.get('/blogs/newblog', ensureAuthenticated, (req,res) => res.render('newblog'));
+router.get('/blogs/newblog', ensureAuthenticated, (req,res) => res.render('newblog', {user: req.user}));
 
 //about and contact routes
-router.get('/about', (req, res) => res.render('about.ejs'));
-router.get('/contact', (req, res) => res.render('contact.ejs'));
+router.get('/about', (req, res) => res.render('about.ejs', {user: req.user} ));
+router.get('/contact', (req, res) => res.render('contact.ejs', {user: req.user} ));
 router.get('/404', (req, res) => res.render('404.ejs'));
 
 // Dashboard All Blogs...
-router.get('/blogs', ensureAuthenticated, (req, res) =>
+router.get('/blogs', (req, res) =>
   Blog.find().sort({ created: -1 })
     .then(result => {
       res.render('blogs', {
@@ -30,7 +40,7 @@ router.get('/blogs', ensureAuthenticated, (req, res) =>
 )
 
 //Get Blogs By ID
-router.get('/blogs/:id', ensureAuthenticated, (req, res) => {
+router.get('/blogs/:id', (req, res) => {
   const id = req.params.id;
   Blog.findById(id)
     .then(result => {
@@ -56,42 +66,27 @@ router.delete('/blogs/:id', ensureAuthenticated, (req, res) => {
 });
 
 //create blog 
-router.post('/blogs',ensureAuthenticated, (req,res) =>{
-  
-  const blog = new Blog({
-    type: req.body.type,
-    title: req.body.title,
-    description: req.body.description,
-    snippet: req.body.snippet,
-    author: req.user.name
-  })
-  //console.log(req.body)
-  const author = req.user.name
-  blog.save()
-      .then(result => {
-       res.redirect('/blogs/');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-})
-// router.post('/blogs', (req,res) =>{
-//     const blog = new Blog(req.body);
-//     User.findById(id)
-//     .then(user =>{
-//       blog.save()
-//       console.log(user)
-//     })
-//     .then(result => {
-//       console.log(result)
-//       console.log(user)
-//           //res.redirect('/blogs/');
-//     })
-//       .catch(err => {
-//         console.log(err)
-//       });  
-// });
+router.post('/blogs', upload, ensureAuthenticated,(req,res) =>{
 
+   
+    const blog = new Blog({
+      type: req.body.type,
+      title: req.body.title,
+      description: req.body.description,
+      snippet: req.body.snippet,
+      author: req.user.name, 
+      // file: req.file.filename
+    })
+    const author = req.user.name
+    blog.save()
+        .then(result => {
+         res.redirect('/blogs/');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+  
+})
 
 
 module.exports = router;
