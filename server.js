@@ -1,6 +1,6 @@
 const express = require('express');
 const multer  = require('multer')
-
+const path = require('path')
 const expressLayouts = require('express-ejs-layouts');
 const PORT = process.env.PORT || 8080;
 const mongoose = require('mongoose');

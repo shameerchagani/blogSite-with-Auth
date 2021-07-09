@@ -1,81 +1,91 @@
 <div class="container">
-            <div class="d-sm-flex justify-content-between">
-                <div class="my-3">
-                    <a href="/blogs/newblog" class='btn btn-secondary btn-lg'><i class="fa fa-plus mr-2"></i>New Post</a>
-                </div>
-                <%if(user){%>
-                <div class='lead my-3'>
-                    Welcome, <span class="text-bolder text-danger"><%=user.name.toUpperCase()%></span>
-                </div>
-                
-                <%}%>
-            </div>
-        
-            <div class="row justify-content-center mb-5">
-                
-                <% if(blogs.length>0) { %> <% blogs.forEach(blog=> { %>
-                        <% if(blog.type==='Public'){%>
-                            <div class="card mr-2 mb-2 rounded px-0 col-lg-3 col-md-5">
-                                <div class="card-header text-bold text-light bg-primary">
-                                  <%=blog.title.toUpperCase().slice(0,20)%>
-                                  <%if(blog.title.length>20){%>
-                                    <span>...</span>
-                                  <%}%>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%=blog.description.slice(0,20)%>
-                                        <%if(blog.description.length>20){%>
-                                          <span>...</span>
-                                        <%}%>
-                                    </h5>
-                                    <span class="text-muted m-2">
-                                      <strong>Published on:</strong>&nbsp;&nbsp;<%=blog.created.toLocaleDateString()%>
-                                    </span>
-                    
-                                    <p class="card-text text-center">
-                                        <a href="/blogs/<%=blog._id%>" class="btn btn-dark mt-3" id='<%=blog._id%>' class="ml-auto">Read More</a>
-                                    </p>
-                                  </div>
-                                  <div class="card-header text-bold text-light bg-secondary p-0">
-                                    <a href="#" class="btn btn-link text-light"><i class="fa fa-user-circle mr-2"></i><%=blog.author%></a></span>
-                                  </div>
-                            </div>
-                        <%}%>
-                        <%if(user){%>
+  <div class="d-sm-flex justify-content-between">
+    <div class="my-3">
+      <a href="/blogs/newblog" class='btn btn-info btn-lg'><i class="fa fa-plus mr-2"></i>New Post</a>
+    </div>
+    <%if(user){%>
+      <div class='lead my-3'>
+        Welcome, <span class="text-bolder text-danger">
+          <%=user.name.toUpperCase()%>
+        </span>
+      </div>
 
-                            <% if(blog.type==='Private'&&blog.author==user.name){%>
-                                <div class="card mr-2 mb-2 rounded px-0 col-lg-3 col-md-5">
-                                    <div class="card-header text-bold text-light bg-primary">
-                                      <%=blog.title.toUpperCase().slice(0,20)%>
-                                      <%if(blog.title.length>20){%>
-                                        <span>...</span>
-                                      <%}%>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                          <%=blog.description.slice(0,20)%>
-                                          <%if(blog.description.length>20){%>
-                                            <span>...</span>
-                                          <%}%>
-                                        </h5>
-                                        <span class="text-muted">
-                                            <%=blog.created.toLocaleDateString()%>
-                                        </span>
-                                        <p class="card-text text-center">
-                                            <a href="/blogs/<%=blog._id%>" class="btn btn-dark" id='<%=blog._id%>' class="ml-auto">Read More...</a>
-                                        </p>
-                                      </div>
-                                      <div class="card-header text-bold text-light bg-success p-0">
-                                        <a href="#" class="btn btn-link text-light"><i class="fa fa-user-circle mr-2"></i><%=blog.author%></a></span>
-                                      </div>
-                                </div>
-                            <%}%> 
-                        <%}%> 
+      <%}%>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+
+    <% if(blogs.length>0) { %> <% blogs.forEach(blog=> { %>
+        <% if(blog.type==='Public' ){%>
+          <div class="card mr-2 mb-2 rounded px-0 col-lg-3 col-md-5">
+            <div class="card-header text-bold text-light bg-primary">
+              <%=blog.title.toUpperCase().slice(0,20)%>
+                <%if(blog.title.length>20){%>
+                  <span>...</span>
+                  <%}%>
+            </div>
+            <img src="<%=blog.image%>" class="card-img-top" alt="blog image">
+
+            <div class="card-body">
+              <h5 class="card-title">
+                <%=blog.description.slice(0,20)%>
+                  <%if(blog.description.length>20){%>
+                    <span>...</span>
+                    <%}%>
+              </h5>
+              <span class="text-muted m-2">
+                <strong>Published on:</strong>&nbsp;&nbsp;<%=blog.created.toLocaleDateString()%>
+              </span>
+
+              <p class="card-text text-center">
+                <a href="/blogs/<%=blog._id%>" class="btn btn-dark mt-3" id='<%=blog._id%>' class="ml-auto">Read
+                  More</a>
+              </p>
+            </div>
+            <div class="card-header text-bold text-light bg-secondary p-0">
+              <a href="#" class="btn btn-link text-light"><i class="fa fa-user-circle mr-2"></i>
+                <%=blog.author%>
+              </a></span>
+            </div>
+          </div>
+          <%}%>
+            <%if(user){%>
+
+              <% if(blog.type==='Private' &&blog.author==user.name){%>
+                <div class="card mr-2 mb-2 rounded px-0 col-lg-3 col-md-5">
+                  <div class="card-header text-bold text-light bg-primary">
+                    <%=blog.title.toUpperCase().slice(0,20)%>
+                      <%if(blog.title.length>20){%>
+                        <span>...</span>
+                        <%}%>
+                  </div>
+                  <img src="<%=blog.image%>" class="card-img-top" alt="blog image">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%=blog.description.slice(0,20)%>
+                        <%if(blog.description.length>20){%>
+                          <span>...</span>
+                          <%}%>
+                    </h5>
+                    <span class="text-muted">
+                      <%=blog.created.toLocaleDateString()%>
+                    </span>
+                    <p class="card-text text-center">
+                      <a href="/blogs/<%=blog._id%>" class="btn btn-dark" id='<%=blog._id%>' class="ml-auto">Read
+                        More...</a>
+                    </p>
+                  </div>
+                  <div class="card-header text-bold text-light bg-success p-0">
+                    <a href="#" class="btn btn-link text-light"><i class="fa fa-user-circle mr-2"></i>
+                      <%=blog.author%>
+                    </a></span>
+                  </div>
+                </div>
+                <%}%>
+                  <%}%>
                     <%})%>
-                    </div>
-            <% } else { %>
-                <p>There are no blogs to display...</p>
-                <% } %>
-        </div>
-       
+  </div>
+  <% } else { %>
+    <h2>There are no blogs to display...</h2>
+    <% } %>
+</div>

@@ -15,7 +15,7 @@
   <h2 class="text-center text-light bg-primary w-100 my-3 py-2">Create New Blog Post</h2>
   <div class="container mb-5">
     <div class="form">
-      <form method="POST" action="/blogs" class="needs-validation" novalidate>
+      <form method="POST" action="/blogs" class="needs-validation" novalidate enctype="multipart/form-data">
         <div class="form-row">
           <div class="col-md-12 mb-3 mt-3">
             <div class="input-group mb-3">
@@ -45,6 +45,7 @@
             <div class="valid-feedback">Looks good!</div>
           </div>
         </div>
+        
         <div class="form-row">
           <div class="col-md-12 mb-3">
             <label for="desc1" class="">Description</label>
@@ -60,6 +61,19 @@
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="col-md-12 mb-3">
+            <label for="image" class="">Select Image</label>
+            <input
+              type="file"
+              class="form-control"
+              id="file"
+              value=""
+              name="file"
+            />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+        </div>
 
         <div class="form-row">
           <div class="form-group pb-3">

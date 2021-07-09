@@ -33,6 +33,15 @@ const blogSchema = new Schema({
       type: Date,
       default: Date.now()
   },
+  image: {
+    type: String,
+    default:"https://res.cloudinary.com/shameer/image/upload/v1625835736/tja0cxagyrucgalxwgyk.png"
+  },
+  cloudinaryId: {
+    type: String,
+    require: true,
+    defaule:"tja0cxagyrucgalxwgyk"
+  },
 
 })
 

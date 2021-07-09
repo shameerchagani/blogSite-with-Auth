@@ -1,9 +1,9 @@
-<body>
+<body style="background:url(<%=blog.image%>);background-size:cover;">
   <div class="container">
     <%if(user){%>
     <div class="d-sm-flex justify-content-between">
       <div class="my-3">
-        <a href="/blogs/newblog" class="btn btn-secondary btn-lg"><i class="fa fa-plus mr-2"></i>New Post</a>
+        <a href="/blogs/newblog" class="btn btn-info btn-lg"><i class="fa fa-plus mr-2"></i>New Post</a>
       </div>
       <div class="lead my-3">
         Welcome,
@@ -13,7 +13,7 @@
     <%}%>
   </div>
   <div class="container mb-5">
-    <div class="card mt-5">
+    <div class="card mt-3" style="background:rgba(0,0,0,0.8); color: white; box-shadow: -2px -3px 10px #fd8272 ">
       <div class="card-body">
         <h5 class="card-title"><%=blog.title%></h5>
         <div class="row d-flex">

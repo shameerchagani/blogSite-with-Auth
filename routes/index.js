@@ -1,18 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Blog = require('../models/blog');
-const multer  = require('multer')
+const upload = require("../middleware/multer");
+const cloudinary = require("../middleware/cloudinary");
 
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
-
-//Multer Middleware
-let Storage = multer.diskStorage({
-  destination: "./public/uploads",
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now()+path.extname(file.originalname))
-  }
-})
-let upload = multer({ storage: Storage}).single('file');
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
@@ -66,16 +58,25 @@ router.delete('/blogs/:id', ensureAuthenticated, (req, res) => {
 });
 
 //create blog 
-router.post('/blogs', upload, ensureAuthenticated,(req,res) =>{
-
+router.post('/blogs', upload.single("file"), ensureAuthenticated, async (req,res) =>{
+   // console.log(req.file)
+   const result = (!req.file) ? {secure_url:"https://res.cloudinary.com/shameer/image/upload/v1625835736/tja0cxagyrucgalxwgyk.png", public_id:"tja0cxagyrucgalxwgyk"} : await cloudinary.uploader.upload(req.file.path);
    
-    const blog = new Blog({
+  //  if(!req.file){
+  //     const result = {secure_url:"https://res.cloudinary.com/shameer/image/upload/v1625835736/tja0cxagyrucgalxwgyk.png", public_id:"tja0cxagyrucgalxwgyk"}
+  //   }else{
+  //     const result = await cloudinary.uploader.upload(req.file.path);
+  //   } 
+      
+    const blog = await new Blog({
       type: req.body.type,
       title: req.body.title,
       description: req.body.description,
       snippet: req.body.snippet,
       author: req.user.name, 
-      // file: req.file.filename
+      image: result.secure_url,
+      cloudinaryId: result.public_id,
+
     })
     const author = req.user.name
     blog.save()
