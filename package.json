@@ -4,7 +4,7 @@
   "description": "Nodejs Blog Project with Image Uploat and authentication!",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "mongodb+srv://shameer:z2HG8sCqTa0OMpMV@cluster0.yvre1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 node server.js",
     "watch": "nodemon app.js"
   },
   "keywords": [],
