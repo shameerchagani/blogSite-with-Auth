@@ -11,6 +11,7 @@ const Blog = require("./models/blog");
 const mongodb = require("mongodb");
 const app = express();
 const dotenv = require("dotenv").config();
+const MongoStore = require("connect-mongo");
 
 // DB Config
 //const db = require('./config/keys').mongoURI;
@@ -59,6 +60,9 @@ app.use(
     secret: process.env.passport_secret,
     resave: true,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.dbPassword,
+    })
   })
 );
 
